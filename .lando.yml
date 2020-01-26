@@ -1,0 +1,51 @@
+name: NAME
+recipe: drupal7
+config:
+  webroot: www
+  via: apache
+  php: '5.6'
+  # php: '7.2'
+  drush: '^7'
+  # database: 'mysql'
+  # conf:
+    # php: config/custom.ini
+
+proxy:
+  appserver:
+    - NAME.lndo.site
+    # - SUBDOMAIN.NAME.lndo.site
+  # solr:
+    # - NAME.solr.lndo.site:8983
+  mailhog:
+    - NAME.mailhog.lndo.site
+  pma:
+    - NAME.pma.lndo.site
+
+services:
+  appserver:
+    webroot: www
+    # xdebug: true
+    # config:
+      # php: config/php.ini
+
+  # solr:
+    # type: solr:5.5
+    # portforward: 8983
+    # core: freedom
+    # config:
+      # conf: ./sites/all/modules/contrib/search_api_solr/solr-conf/5.x
+
+#  database:
+#    type: mysql:5.7
+#    portforward: true
+
+  mailhog:
+    type: mailhog
+    hogfrom:
+      - appserver
+    portforward: true
+
+  pma:
+    type: phpmyadmin
+    hosts:
+      - database
